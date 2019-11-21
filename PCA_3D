@@ -1,0 +1,41 @@
+from sklearn.decomposition import PCA
+pca = PCA(n_components=3)
+principalComponents = pca.fit_transform(norm_train_x.reshape([-1,60]))
+principalDf = pd.DataFrame(data = principalComponents,\
+                           columns = ['principal component 1', 'principal component 2','principal component 3'])
+finalDf = pd.concat([principalDf, pd.DataFrame(train_y_class.reshape([-1,1]))], axis = 1)
+'''
+plt.figure()
+
+lw = 1
+
+for color, i, target_name in zip(colors, [0, 1], target_names):
+    plt.scatter(principalComponents[train_y_class.flatten() == i, 0], principalComponents[train_y_class.flatten() == i, 1], color=color, alpha=.8, lw=lw,
+                label=target_name)
+plt.legend(loc='best', shadow=False, scatterpoints=1,labels=['S0','S1'])
+plt.xlabel('principal component 1')
+plt.ylabel('principal component 2')
+plt.title('PCA of Augmented dataset with 464 points')
+'''
+
+from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import proj3d
+
+fig = plt.figure(figsize=(8,8))
+ax = fig.add_subplot(111, projection='3d')
+plt.rcParams['legend.fontsize'] = 10  
+colors = ['r', 'g']
+target_names=[0,1]
+for color, i, target_name in zip(colors, [0, 1], target_names):
+    ax.plot(principalComponents[train_y_class.flatten() == i, 0], principalComponents[train_y_class.flatten() == i, 1],principalComponents[train_y_class.flatten() == i, 2], 'o',color=color,markersize=5, alpha=.8, lw=lw,
+                label=target_name)
+#ax.plot(class1_sample[0,:], class1_sample[1,:], class1_sample[2,:], 'o', markersize=8, color='blue', alpha=0.5, label='class1')
+#ax.plot(class2_sample[0,:], class2_sample[1,:], class2_sample[2,:], '^', markersize=8, alpha=0.5, color='red', label='class2')
+
+plt.title('PCA of Augmented dataset with 464 points')
+ax.set_xlabel('principal component 1')
+ax.set_ylabel('principal component 2')
+ax.set_zlabel('principal component 3')
+ax.legend(loc='upper right',labels=('S0', 'S1'))
+
+plt.show()
