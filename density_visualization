@@ -1,0 +1,6 @@
+from sklearn.manifold.t_sne import TSNE
+import seaborn as sns; sns.set(color_codes=True)
+X0_Train_embedded = TSNE(n_components=2).fit_transform(x0_sample)
+X1_Train_embedded = TSNE(n_components=2).fit_transform(x1_sample)
+ax = sns.kdeplot(X1_Train_embedded[:,0], X1_Train_embedded[:,1], cmap="Blues", shade=False, shade_lowest=True)
+ax = sns.kdeplot(X0_Train_embedded[:,0], X0_Train_embedded[:,1],cmap="Reds", shade=False, shade_lowest=True)
